@@ -7,9 +7,9 @@ Gem::Specification.new do |gem|
   gem.name          = "gem_plant"
   gem.version       = GemPlant::VERSION
   gem.authors       = ["Takahiro HAMAGUCHI"]
-  gem.email         = ["tk.hamaguchi@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.email         = ["tk_hamaguchi@xml-lab.jp"]
+  gem.description   = %q{Gem template generator}
+  gem.summary       = %q{Gem template generator.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
