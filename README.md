@@ -4,9 +4,11 @@ GemPlant
 Gemテンプレートジェネレータです。
 
 
-## Installation
+Installation
+--------
 
-TBD
+    gem install gem_plant --pre
+
 
 ## Usage
 
