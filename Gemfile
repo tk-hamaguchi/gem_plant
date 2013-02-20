@@ -10,4 +10,6 @@ group :test do
   gem 'rspec', '~>2.12.0'
   gem 'cucumber'
   gem 'aruba'
+  gem 'simplecov'
+  gem 'simplecov-rcov'
 end
