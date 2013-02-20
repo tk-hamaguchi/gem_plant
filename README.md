@@ -7,7 +7,7 @@ Gemテンプレートジェネレータです。
 Installation
 --------
 
-    gem install gem_plant --pre
+    $ gem install gem_plant --pre
 
 
 ## Usage

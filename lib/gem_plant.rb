@@ -2,6 +2,7 @@
 
 
 require "gem_plant/version"
+require "gem_plant/cli"
 
 
 # Gemテンプレートジェネレータ
