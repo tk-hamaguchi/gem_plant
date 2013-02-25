@@ -3,6 +3,7 @@
 
 require "gem_plant/version"
 require "gem_plant/cli"
+require "gem_plant/cli/base"
 require "gem_plant/cli/generator"
 
 
