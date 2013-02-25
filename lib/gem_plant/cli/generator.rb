@@ -44,22 +44,26 @@ class GemPlant::CLI::Generator < Thor::Group
     :default => true
 
 
-
+  # bundle gemを実行する
+  # 
+  # @see Bundler::CLI#gem
+  #
   def bundle_gem
     Bundler::CLI.new.gem(gem_name)
   end
 
 
+  # bundlerによるgem生成直後の状態を一度コミット
   def git_first_commit
     git.open(gem_name)
     Dir.glob(File.join(gem_name,'**/*')) { |file|
       git.add File.expand_path(file).gsub(/^#{git.repo_dir}\//,'')
     }
     git.commit("first commit with \"bundle gem #{gem_name}\".")
-    @repo = git.repo
   end
 
 
+  # .gitignoreを編集
   def modify_gitignore
     gitignore_file = File.join(gem_name, '.gitignore')
     gsub_file(gitignore_file, /^(Gemfile.lock|doc\/)$/, '#\1')
@@ -74,10 +78,13 @@ doc/yardoc
   end
 
 
+  # LICENSE.txtをリネーム
   def rename_license
     git.mv 'LICENSE.txt', 'MIT-LICENSE.txt'
   end
 
+
+  # Gemfileの編集
   def update_gemfile
     gsub_file(File.join(gem_name, 'Gemfile'), /^#\s*.*\n/, '')
     append_file(File.join(gem_name, 'Gemfile')) do
@@ -101,7 +108,7 @@ gem "redcarpet", require: false
       end
       if options['rspec']
         append_str << <<-EOS
-  gem 'rspec', '~>2.12.0'
+  gem 'rspec', '~>2.13.0'
   gem 'simplecov'
   gem 'simplecov-rcov'
         EOS
@@ -113,11 +120,13 @@ gem "redcarpet", require: false
   end
 
 
+  # .bundleを生成
   def copy_bundle_config
     directory(File.join('templates','bundler','.bundle'), File.join(gem_name,'.bundle'))
   end
 
 
+  # cucumber関連ファイルの追加
   def copy_features
     if options['cucumber']
       directory(File.join('templates','cucumber','features'), File.join(gem_name,'features'))
@@ -131,6 +140,7 @@ gem "redcarpet", require: false
   end
 
 
+  # rspec関連ファイルの追加
   def copy_specs
     if options['rspec']
       directory(File.join('templates','rspec','tasks'), File.join(gem_name,'lib','tasks'))
@@ -141,6 +151,7 @@ gem "redcarpet", require: false
   end
 
 
+  # yard関連ファイルの追加
   def copy_yardoc
     if options['yard']
       directory(File.join('templates','yard','tasks'), File.join(gem_name,'lib','tasks'))
@@ -149,6 +160,7 @@ gem "redcarpet", require: false
   end
 
 
+  # Rakefileへタスク追加
   def update_rakefile
     append_file(File.join(gem_name, 'Rakefile')) do
       append_str = ['']
@@ -164,18 +176,9 @@ gem "redcarpet", require: false
   end
 
 
+  # これまでの変更をコミット
   def git_commit
     git.commit("Commit with updeted files.")
-  end
-
-  def git_log
-p    git.repo.commits("master", 2)
-p    git.repo.tree.contents.collect{ |c| c.name } 
-p    git.repo.log("master", "Rakefile").collect{ |h| h.message }
-  end
-
-  def clean
-    #FileUtils.rm_rf gem_name
   end
 
 end
