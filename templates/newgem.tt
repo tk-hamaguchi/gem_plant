@@ -1,0 +1,2 @@
+class <%= gem_name.capitalize %>
+end

@@ -6,25 +6,25 @@ require 'thor'
 
 module GemPlant
 
-  class CLI < ::Thor
-    include Thor::Actions
+  # CLIの基底クラス
+  #
+  # @author tk_hamaguchi@xml-lab.jp
+  # @version 0.0.1pre
+  #
+  module CLI
 
-    # @private
-    def self.source_root
-      File.dirname(__FILE__)
+    class Base < Thor
+      
     end
 
+    module_function
 
-    desc "generate GEM_NAME",
-      'Generate rubygems templates. (short-cut alias: "g")'
-    method_option :cucumber,
-      :aliases => "-c",
-      :type    => :boolean,
-      :desc    => "Generate with cucumber templates.",
-      :alias   => :g,
-      :default => true
-    def generate(name)
-      puts name
+    def start(given_args=ARGV, config={})
+      Base.start(given_args,config)
+    end
+
+    def register(klass, subcommand_name, usage, description, options = {})
+      Base.register(klass, subcommand_name, usage, description, options)
     end
 
   end
