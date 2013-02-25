@@ -6,10 +6,8 @@ require 'spec_helper'
 
 describe GemPlant::CLI::Base do
 
-  let(:klass) { GemPlant::CLI::Base }
-
   context "definition" do
-    subject { klass }
+    subject { described_class }
     it { should be_kind_of Module }
     it { should be_kind_of Class }
     it { should respond_to :start }

@@ -3,15 +3,13 @@
 
 describe GemPlant do
 
-  let(:klass) { GemPlant }
-
   context "definition" do
-    subject { klass }
+    subject { described_class }
     it { should be_const_defined :VERSION }
   end
 
   context "::VERSION" do
-    subject { GemPlant::VERSION }
+    subject { described_class::VERSION }
     it { should be_instance_of String }
     it { should =~ /\d+\.\d+\.\d+(\.\w+)?/ }
   end

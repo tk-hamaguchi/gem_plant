@@ -6,10 +6,8 @@ require 'spec_helper'
 
 describe GemPlant::CLI do
 
-  let(:klass) { GemPlant::CLI }
-
   context "definition" do
-    subject { klass }
+    subject { described_class }
     it { should be_kind_of Module }
     it { should_not be_kind_of Class }
     it { should respond_to :start }
@@ -22,7 +20,7 @@ describe GemPlant::CLI do
     let(:mock_config) { { :aaa => "AAA", :bbb => "BBB" } }
     let(:mock_response) { "response" }
 
-    subject { klass.start(mock_args, mock_config) }
+    subject { described_class.start(mock_args, mock_config) }
 
     before { GemPlant::CLI::Base.stub!(:start).and_return( mock_response ) }
 
@@ -49,7 +47,7 @@ describe GemPlant::CLI do
     let(:mock_config) { { :aaa => "AAA", :bbb => "BBB" } }
     let(:mock_response) { "response" }
 
-    subject { klass.register(mock_klass, mock_subcommand_name, mock_usage, mock_description, mock_options) }
+    subject { described_class.register(mock_klass, mock_subcommand_name, mock_usage, mock_description, mock_options) }
 
     before { GemPlant::CLI::Base.stub!(:register).and_return( mock_response ) }
 

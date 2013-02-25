@@ -12,7 +12,7 @@ require 'gem_plant/cli/helpers/git_helper'
 # @version 0.0.1pre
 #
 class GemPlant::CLI::Generator < Thor::Group
-  include Thor::Actions, GemPlant::CLI::Helpers::GitHelper
+  include Thor::Actions, GemPlant::CLI::GitHelper
 
   source_root File.expand_path('../../../', File.dirname(__FILE__))
 
