@@ -176,6 +176,65 @@ gem "redcarpet", require: false
   end
 
 
+  # 基底モジュールにドキュメント追加
+  def modify_base_module
+    base_module_file = File.join(gem_name, 'lib', "#{gem_name}.rb")
+    gsub_file(base_module_file, /\n\s*#.+\n/, "\n")
+    gem_class_name = File.read(base_module_file).match(/^module (\w+)$/)[1]
+    insert_into_file base_module_file, before: "module" do
+      <<-EOS
+# #{gem_class_name} 基底モジュール
+#
+# @author #{git.repo.config["user.email"]}
+# @since 1.0.0
+#
+      EOS
+    end
+    git.add File.join('lib', "#{gem_name}.rb")
+  end
+
+
+  # 基底モジュールのバージョンを変更
+  def modify_base_module_version
+    base_module_version_file = File.join(gem_name, 'lib', gem_name, 'version.rb')
+
+    gsub_file(base_module_version_file, /\n\s*VERSION.+\n/, "\n")
+    insert_into_file base_module_version_file, before: "end" do
+      <<-EOS
+
+  # バージョン情報
+  #
+  # @author #{git.repo.config["user.email"]}
+  # @since 1.0.0
+  #
+  module VERSION
+
+    # @return [Fixnum] メジャーバージョン番号
+    MAJOR = 0
+
+    # @return [Fixnum] マイナーバージョン番号
+    MINOR = 0
+
+    # @return [Fixnum] タイニーバージョン番号
+    TINY  = 1
+
+    # @return [String] サフィックス
+    PRE   = "pre"
+
+    # @return [String] バージョン情報
+    STRING = [MAJOR, MINOR, TINY, PRE].compact.join(".")
+
+  end
+
+      EOS
+    end
+    git.add File.join('lib', gem_name, 'version.rb')
+  end
+
+
+
+
+
   # これまでの変更をコミット
   def git_commit
     git.commit("Commit with updeted files.")

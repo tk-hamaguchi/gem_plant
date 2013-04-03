@@ -94,6 +94,10 @@ module GemPlant
         end
 
 
+        def repo_dir
+          @repo.working_dir
+        end
+
         private
 
           # @private
