@@ -87,6 +87,7 @@ doc/yardoc
   # Gemfileの編集
   def update_gemfile
     gsub_file(File.join(gem_name, 'Gemfile'), /^#\s*.*\n/, '')
+    gsub_file(File.join(gem_name, 'Gemfile'), /^(source 'https:\/\/rubygems\.org')$/, '#\1' + "\nsource 'http://rubygems.org'")
     append_file(File.join(gem_name, 'Gemfile')) do
       append_str = ['']
       append_str << <<-EOS
@@ -190,7 +191,7 @@ gem "redcarpet", require: false
 #
       EOS
     end
-    git.add File.join('lib', "#{gem_name}.rb")
+    git.add "lib/#{gem_name}.rb"
   end
 
 
@@ -232,7 +233,14 @@ gem "redcarpet", require: false
   end
 
 
-
+  # specファイルをアップデート
+  def modify_gemspec
+    gemspec_file = File.join(gem_name, "#{gem_name}.gemspec")
+    gsub_file(gemspec_file, /VERSION/, "VERSION::STRING")
+    gsub_file(gemspec_file, /TODO: Write a gem summary/, gem_name)
+    gsub_file(gemspec_file, /TODO: Write a gem description/, "#{gem_name}.")
+    git.add File.join("#{gem_name}.gemspec")
+  end
 
 
   # これまでの変更をコミット

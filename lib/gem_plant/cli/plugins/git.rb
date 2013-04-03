@@ -48,7 +48,7 @@ module GemPlant
             unless blob = @repo.tree / file
               blob = Grit::Blob.create(@repo, {:name => file, :data => File.read(target_file(file))})
             end
-            @repo.add(blob.name)
+            @repo.add(file)
           }
           true
         end
